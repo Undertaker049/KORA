@@ -52,28 +52,3 @@ def load_data_from_file(self):
 
     except Exception as e:
         QMessageBox.critical(self, "Error", f"Error loading data: {str(e)}")
-        
-def generate_test_data(self):
-    """
-    Generate test data.
-    """
-    try:
-        n_samples = self.n_samples_spin.value()
-        n_features = self.n_features_spin.value()
-        n_clusters = self.n_clusters_gen_spin.value()
-        
-        self.data, self.true_labels = self.data_loader.generate_sample_data(
-            n_samples=n_samples,
-            n_features=n_features,
-            n_clusters=n_clusters,
-            random_state=42
-        )
-        
-        # Create column names for generated data
-        self.original_columns = [f"Feature_{i}" for i in range(self.data.shape[1])]
-        
-        self.update_data_info()
-        QMessageBox.information(self, "Success", "Test data successfully generated.")
-   
-    except Exception as e:
-        QMessageBox.critical(self, "Error", f"Error generating data: {str(e)}")

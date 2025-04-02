@@ -54,7 +54,6 @@ class ClusteringApp(QMainWindow):
         self.preprocess_data = ui_components['preprocess_data'].__get__(self)
         self.find_optimal_k = ui_components['find_optimal_k'].__get__(self)
         self.load_data_from_file = ui_components['load_data_from_file'].__get__(self)
-        self.generate_test_data = ui_components['generate_test_data'].__get__(self)
         self.save_results = ui_components['save_results'].__get__(self)
         self.visualize_results = ui_components['visualize_results'].__get__(self)
         

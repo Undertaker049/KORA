@@ -47,38 +47,12 @@ def init_ui(self):
     data_group = QGroupBox("Data")
     data_layout = QVBoxLayout()
     
-    # Data loading buttons
+    # Data loading button
     load_data_btn = QPushButton("Load Data from File...")
     load_data_btn.clicked.connect(self.load_data_from_file)
     
-    generate_data_btn = QPushButton("Generate Test Data")
-    generate_data_btn.clicked.connect(self.generate_test_data)
-    
-    # Data generation settings
-    gen_data_settings = QGroupBox("Generation Settings")
-    gen_data_layout = QFormLayout()
-    
-    self.n_samples_spin = QSpinBox()
-    self.n_samples_spin.setRange(10, 10000)
-    self.n_samples_spin.setValue(1000)
-    gen_data_layout.addRow("Number of points:", self.n_samples_spin)
-    
-    self.n_features_spin = QSpinBox()
-    self.n_features_spin.setRange(2, 100)
-    self.n_features_spin.setValue(2)
-    gen_data_layout.addRow("Number of features:", self.n_features_spin)
-    
-    self.n_clusters_gen_spin = QSpinBox()
-    self.n_clusters_gen_spin.setRange(2, 20)
-    self.n_clusters_gen_spin.setValue(3)
-    gen_data_layout.addRow("Number of clusters:", self.n_clusters_gen_spin)
-    
-    gen_data_settings.setLayout(gen_data_layout)
-    
     # Add widgets to data group
     data_layout.addWidget(load_data_btn)
-    data_layout.addWidget(generate_data_btn)
-    data_layout.addWidget(gen_data_settings)
     data_group.setLayout(data_layout)
     
     # Preprocessing settings group

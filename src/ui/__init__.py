@@ -6,7 +6,7 @@ User interface module.
 from ._init_ui import init_ui, MatplotlibCanvas
 from ._perform_clustering import perform_clustering, update_data_info, preprocess_data
 from ._find_optimal_k import find_optimal_k
-from .data_loader import load_data_from_file, generate_test_data
+from .data_loader import load_data_from_file
 from .data_saver import save_results
 from .results_visualizer import visualize_results
 from .app import ClusteringApp
@@ -45,7 +45,6 @@ def create_app(
             'preprocess_data': preprocess_data,
             'find_optimal_k': find_optimal_k,
             'load_data_from_file': load_data_from_file,
-            'generate_test_data': generate_test_data,
             'save_results': save_results,
             'visualize_results': visualize_results,
             'MatplotlibCanvas': MatplotlibCanvas
@@ -63,7 +62,6 @@ __all__ = [
     'preprocess_data',
     'find_optimal_k',
     'load_data_from_file',
-    'generate_test_data',
     'save_results',
     'visualize_results'
 ]
