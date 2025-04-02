@@ -6,7 +6,10 @@ import numpy as np
 from PyQt5.QtWidgets import QMessageBox
 
 def visualize_results(self):
-
+    """
+    Visualize clustering results.
+    """
+    
     if self.labels is None:
         return
         
@@ -14,7 +17,7 @@ def visualize_results(self):
 
         # Cluster visualization
         if self.reduced_data.shape[1] > 2:
-
+            
             # If data has more than 2 dimensions, apply PCA for visualization
             vis_data = self.visualizer.reduce_dimensions(self.processed_data, n_components=2)
             centers = None  # Don't visualize centers as they're in a different space
@@ -23,16 +26,13 @@ def visualize_results(self):
             vis_data = self.reduced_data
 
             # If dimensionality was reduced, transform centers too
-            if self.reduced_data.shape[1] == 2 and self.kmeans.cluster_centers_ is not None:
+            centers = None
+            if hasattr(self, 'kmeans') and self.kmeans is not None and hasattr(self.kmeans, 'cluster_centers_'):
                 
-                if self.kmeans.cluster_centers_.shape[1] == self.reduced_data.shape[1]:
-                    centers = self.kmeans.cluster_centers_
-                
-                else:
-                    centers = None
-            
-            else:
-                centers = None
+                if self.reduced_data.shape[1] == 2 and self.kmeans.cluster_centers_ is not None:
+                    
+                    if self.kmeans.cluster_centers_.shape[1] == self.reduced_data.shape[1]:
+                        centers = self.kmeans.cluster_centers_
                 
         # Cluster visualization
         fig_clusters = self.visualizer.plot_clusters_2d(
@@ -58,7 +58,7 @@ def visualize_results(self):
                 print(f"Error visualizing silhouette analysis: {str(e)}")
                 
         # Feature importance (if cluster centers exist)
-        if self.kmeans.cluster_centers_ is not None:
+        if hasattr(self, 'kmeans') and self.kmeans is not None and hasattr(self.kmeans, 'cluster_centers_') and self.kmeans.cluster_centers_ is not None:
             feature_names = [f"Feature {i+1}" for i in range(self.kmeans.cluster_centers_.shape[1])]
             fig_features = self.visualizer.plot_feature_importance(
                 self.kmeans.cluster_centers_,
