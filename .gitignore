@@ -120,3 +120,6 @@ Desktop.ini
 .LSOverride
 Icon
 ._*
+
+# Test files
+tests/files

@@ -66,31 +66,3 @@ class DataLoader:
         except Exception as e:
             print(f"Error loading file {file_path}: {e}")
             raise
-    
-    @staticmethod
-    def generate_sample_data(
-        n_samples: int = 1000, 
-        n_features: int = 2, 
-        n_clusters: int = 3,
-        random_state: Optional[int] = None
-    ) -> Tuple[np.ndarray, np.ndarray]:
-        """
-        Generate synthetic data for testing.
-        
-        Args:
-            n_samples: Number of samples
-            n_features: Number of features
-            n_clusters: Number of clusters
-            random_state: Random state for reproducibility
-            
-        Returns:
-            Tuple of (X, y), where X is the data and y is the cluster labels
-        """
-        from sklearn.datasets import make_blobs
-        
-        return make_blobs(
-            n_samples=n_samples,
-            n_features=n_features,
-            centers=n_clusters,
-            random_state=random_state
-        )
