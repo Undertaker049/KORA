@@ -14,6 +14,7 @@ def find_optimal_k(self):
         return
         
     try:
+        
         # Create temporary model
         temp_kmeans = self.clustering_class()
         
@@ -31,7 +32,17 @@ def find_optimal_k(self):
         # Switch to elbow method tab
         self.tabs.setCurrentIndex(1)
         
-        QMessageBox.information(self, "Optimal k", "Elbow method completed. Examine the plot to determine the optimal number of clusters.")
+        # Create results text
+        info_text = "Elbow Method Analysis\n\n"
+        info_text += "Inertia values for different k:\n"
+        
+        for k, inertia in zip(k_range, inertia_values):
+            info_text += f"k = {k}: {inertia:.2f}\n"
+            
+        # Display results in the text field
+        self.results_text.setText(info_text)
    
     except Exception as e:
-        QMessageBox.critical(self, "Error", f"Error finding optimal k: {str(e)}")
+        error_msg = f"Error finding optimal k: {str(e)}"
+        QMessageBox.critical(self, "Error", error_msg)
+        self.results_text.setText(error_msg)

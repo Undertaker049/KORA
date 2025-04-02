@@ -34,7 +34,7 @@ def perform_clustering(self):
         self.visualize_results()
         
         # Results information
-        info_text = "Clustering Results:\n"
+        info_text = "Clustering Results:\n\n"
         info_text += f"Number of clusters: {n_clusters}\n"
         info_text += f"Inertia: {evaluation['inertia']:.4f}\n"
         
@@ -46,16 +46,26 @@ def perform_clustering(self):
             
         if 'davies_bouldin_score' in evaluation:
             info_text += f"Davies-Bouldin index: {evaluation['davies_bouldin_score']:.4f}\n"
-            
-        QMessageBox.information(self, "Clustering Results", info_text)
+        
+        # Add cluster size information
+        if self.labels is not None:
+            info_text += "\nCluster sizes:\n"
+            unique_labels, counts = np.unique(self.labels, return_counts=True)
+            for label, count in zip(unique_labels, counts):
+                info_text += f"Cluster {label}: {count} points\n"
+        
+        # Display results in the text field instead of message box
+        self.results_text.setText(info_text)
+        
+        # Switch to the clusters tab to show visualization
+        self.tabs.setCurrentIndex(0)
     
     except Exception as e:
         QMessageBox.critical(self, "Error", f"Error performing clustering: {str(e)}")
+        self.results_text.setText(f"Error performing clustering: {str(e)}")
 
 def update_data_info(self):
-    """
-    Update data information.
-    """
+
     if self.data is not None:
         n_samples, n_features = self.data.shape
         self.data_info_label.setText(f"Data: {n_samples} points, {n_features} features")
@@ -99,8 +109,10 @@ def preprocess_data(self):
             
         else:
             self.reduced_data = self.processed_data
-            
-        QMessageBox.information(self, "Success", "Data successfully preprocessed.")
+        
+        # Update results text    
+        self.results_text.setText("Data successfully preprocessed. Ready for clustering.")
     
     except Exception as e:
         QMessageBox.critical(self, "Error", f"Error preprocessing data: {str(e)}")
+        self.results_text.setText(f"Error preprocessing data: {str(e)}") 

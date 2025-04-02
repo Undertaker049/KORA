@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout,
     QPushButton, QLabel, QComboBox, QSpinBox,
     QTabWidget, QCheckBox, QGroupBox, QFormLayout,
-    QDoubleSpinBox, QSplitter
+    QDoubleSpinBox, QSplitter, QTextEdit
 )
 from PyQt5.QtCore import Qt
 from matplotlib.figure import Figure
@@ -136,14 +136,30 @@ def init_ui(self):
     
     cluster_group.setLayout(cluster_layout)
     
+    # Data and Results Information Group
+    info_group = QGroupBox("Information")
+    info_layout = QVBoxLayout()
+    
     # Data information
     self.data_info_label = QLabel("No data loaded")
+    info_layout.addWidget(self.data_info_label)
+    
+    # Results information
+    results_label = QLabel("Clustering Results:")
+    info_layout.addWidget(results_label)
+    
+    self.results_text = QTextEdit()
+    self.results_text.setReadOnly(True)
+    self.results_text.setMinimumHeight(150)
+    info_layout.addWidget(self.results_text)
+    
+    info_group.setLayout(info_layout)
     
     # Add groups to left panel
     left_layout.addWidget(data_group)
     left_layout.addWidget(preprocess_group)
     left_layout.addWidget(cluster_group)
-    left_layout.addWidget(self.data_info_label)
+    left_layout.addWidget(info_group)
     left_layout.addStretch()
     
     # Right panel with visualization

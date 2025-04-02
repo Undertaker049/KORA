@@ -47,6 +47,7 @@ def save_results(self):
                 file_path += '.csv'
 
             results_df.to_csv(file_path, index=False)
+            file_type = "CSV"
 
         elif file_path.endswith('.xlsx') or selected_filter == "Excel files (*.xlsx)":
 
@@ -54,6 +55,7 @@ def save_results(self):
                 file_path += '.xlsx'
 
             results_df.to_excel(file_path, index=False)
+            file_type = "Excel"
 
         elif file_path.endswith('.npy') or selected_filter == "NumPy files (*.npy)":
 
@@ -62,6 +64,7 @@ def save_results(self):
 
             # For NumPy, save only the array with cluster labels
             np.save(file_path, self.labels)
+            file_type = "NumPy (only cluster labels)"
 
         else:
 
@@ -70,8 +73,32 @@ def save_results(self):
                 file_path += '.csv'
 
             results_df.to_csv(file_path, index=False)
+            file_type = "CSV (default)"
+        
+        # Create result message
+        info_text = "Results Successfully Saved\n\n"
+        info_text += f"File: {file_path}\n"
+        info_text += f"Format: {file_type}\n"
+        
+        if file_type != "NumPy (only cluster labels)":
+            info_text += f"Columns saved: {len(results_df.columns)}\n"
+            info_text += f"Rows saved: {len(results_df)}\n"
             
-        QMessageBox.information(self, "Success", f"Clustering results successfully saved to\n{file_path}")
+            # Add column names
+            info_text += "\nSaved columns: "
+            column_names = results_df.columns.tolist()
+            info_text += ", ".join(column_names[:10])
+            
+            if len(column_names) > 10:
+                info_text += f" and {len(column_names) - 10} more..."
+
+        else:
+            info_text += f"Cluster labels saved: {len(self.labels)}\n"
+        
+        # Display in text area
+        self.results_text.setText(info_text)
    
     except Exception as e:
-        QMessageBox.critical(self, "Error", f"Error saving results: {str(e)}")
+        error_msg = f"Error saving results: {str(e)}"
+        QMessageBox.critical(self, "Error", error_msg)
+        self.results_text.setText(error_msg)
