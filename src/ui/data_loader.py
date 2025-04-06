@@ -1,5 +1,7 @@
 """
-Module for loading data from various sources.
+Module for loading data.
+
+Provides interface functionality for loading data from different file formats.
 """
 
 import pandas as pd
@@ -7,14 +9,31 @@ from PyQt5.QtWidgets import QFileDialog, QMessageBox
 
 def load_data_from_file(self):
     """
-    Load data from a file.
+    Load data from a user-selected file via file dialog.
+    
+    Parameters:
+        self: The parent application instance containing:
+            - translator: For localizing UI messages
+            - data_loader: Component with methods for loading different file formats
+            - results_text: Text widget to display information about loaded data
+            
+    Returns:
+        None: Data is stored as instance attributes:
+            - data: NumPy array containing the loaded data
+            - original_columns: List of column names from the original dataset
+            
+    Raises:
+        Exception: If there is an error loading or parsing the file,
+                  the exception is caught and displayed to the user
     """
+    tr = self.translator
+    
     options = QFileDialog.Options()
     file_path, _ = QFileDialog.getOpenFileName(
         self,
-        "Load Data",
+        tr('file_open_title'),
         "",
-        "CSV files (*.csv);;Excel files (*.xlsx *.xls);;NumPy files (*.npy);;All files (*)",
+        tr('file_types'),
         options=options
     )
     
@@ -55,22 +74,24 @@ def load_data_from_file(self):
         
         # Create results text
         n_samples, n_features = self.data.shape
-        info_text = "Data Successfully Loaded\n\n"
-        info_text += f"File: {file_path}\n"
-        info_text += f"Type: {file_type}\n"
-        info_text += f"Samples: {n_samples}\n"
-        info_text += f"Features: {n_features}\n"
+        info_text = f"{tr('msg_data_loaded')}\n\n"
+        info_text += f"{tr('file_open_title')}: {file_path}\n"
+        info_text += f"{tr('data_preview')}: {file_type}\n"
+        info_text += f"{tr('data_samples')}: {n_samples}\n"
+        info_text += f"{tr('data_features')}: {n_features}\n"
         
         if hasattr(self, 'original_columns') and self.original_columns:
-            info_text += f"\nFeature names: {', '.join(self.original_columns[:10])}"
+            feature_names = f"\n{tr('data_features')}: {', '.join(self.original_columns[:10])}"
             
             if len(self.original_columns) > 10:
-                info_text += f" and {len(self.original_columns) - 10} more..."
+                feature_names += f" {tr('data_features')} {len(self.original_columns) - 10}..."
+                
+            info_text += feature_names
         
         # Display in text area
         self.results_text.setText(info_text)
 
     except Exception as e:
-        error_msg = f"Error loading data: {str(e)}"
-        QMessageBox.critical(self, "Error", error_msg)
+        error_msg = f"{tr('msg_error')}: {str(e)}"
+        QMessageBox.critical(self, tr('msg_error'), error_msg)
         self.results_text.setText(error_msg)

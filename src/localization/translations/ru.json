@@ -1,0 +1,106 @@
+{
+    "app_title": "KORA - Оптимизация K-means и Рекурсивный Анализ",
+    
+    "menu_file": "Файл",
+    "menu_data": "Данные",
+    "menu_analysis": "Анализ",
+    "menu_results": "Результаты",
+    "menu_settings": "Настройки",
+    "menu_help": "Помощь",
+    
+    "menu_open": "Открыть файл данных",
+    "menu_exit": "Выход",
+    
+    "menu_preprocess": "Предобработка данных",
+    
+    "menu_find_optimal_k": "Найти оптимальное K",
+    "menu_perform_clustering": "Выполнить кластеризацию",
+    
+    "menu_save_results": "Сохранить результаты",
+    "menu_visualize": "Визуализация кластеров",
+    
+    "menu_language": "Язык",
+    "menu_language_en": "Английский",
+    "menu_language_ru": "Русский",
+    
+    "menu_about": "О программе",
+    
+    "tab_data": "Данные",
+    "tab_clustering": "Кластеризация",
+    "tab_visualization": "Визуализация",
+    
+    "data_info": "Информация о данных",
+    "data_preview": "Предпросмотр данных",
+    "data_shape": "Размерность",
+    "data_features": "Признаки",
+    "data_samples": "Образцы",
+    "data_missing": "Пропущенные значения",
+    
+    "preprocess_title": "Параметры предобработки данных",
+    "preprocess_normalize": "Нормализация данных",
+    "preprocess_scale": "Масштабирование признаков",
+    "preprocess_missing": "Обработка пропущенных значений",
+    "preprocess_button": "Применить предобработку",
+    
+    "clustering_params": "Параметры кластеризации",
+    "clustering_k": "Количество кластеров (k)",
+    "clustering_max_iter": "Максимальное число итераций",
+    "clustering_random_state": "Случайное состояние",
+    "clustering_button": "Запустить кластеризацию",
+    "clustering_results": "Результаты кластеризации",
+    "clustering_metrics": "Метрики оценки",
+    
+    "viz_method": "Метод снижения размерности",
+    "viz_pca": "МГК (PCA)",
+    "viz_tsne": "t-SNE",
+    "viz_plot_title": "Визуализация кластеров",
+    "viz_update": "Обновить визуализацию",
+    
+    "optimal_k_title": "Поиск оптимального числа кластеров",
+    "optimal_k_min": "Минимальное K",
+    "optimal_k_max": "Максимальное K",
+    "optimal_k_button": "Найти оптимальное K",
+    "optimal_k_results": "Результаты метода локтя",
+    
+    "file_open_title": "Открыть файл данных",
+    "file_save_title": "Сохранить результаты",
+    "file_types": "Файлы данных (*.csv *.xlsx *.npy);;CSV файлы (*.csv);;Excel файлы (*.xlsx);;NumPy файлы (*.npy);;Все файлы (*)",
+    
+    "msg_data_loaded": "Данные успешно загружены",
+    "msg_preprocessing_done": "Предобработка данных завершена. Готово к кластеризации.",
+    "msg_clustering_done": "Кластеризация завершена",
+    "msg_results_saved": "Результаты успешно сохранены",
+    "msg_error": "Ошибка",
+    "msg_warning": "Предупреждение",
+    "msg_info": "Информация",
+    "msg_no_data": "Нет данных для сохранения. Сначала выполните кластеризацию.",
+    "msg_no_data_loaded": "Данные не загружены",
+    "msg_no_processed_data": "Сначала необходимо предобработать данные.",
+    "msg_load_data_first": "Сначала необходимо загрузить данные.",
+    
+    "about_title": "О программе KORA",
+    "about_text": "KORA - Фреймворк оптимизации K-means и рекурсивного анализа\n\nИнструмент для кластеризации и анализа данных с использованием алгоритма K-means.",
+    
+    "metric_inertia": "Инерция",
+    "metric_silhouette": "Коэффициент силуэта",
+    "metric_calinski_harabasz": "Индекс Калински-Харабаша",
+    "metric_davies_bouldin": "Индекс Дэвиса-Болдина",
+    
+    "plot_component1": "Компонента 1",
+    "plot_component2": "Компонента 2",
+    "plot_cluster": "Кластер",
+    "plot_cluster_distribution": "Распределение кластеров",
+    "plot_elbow_title": "Метод локтя для определения оптимального K",
+    "plot_elbow_x": "Количество кластеров (k)",
+    "plot_elbow_y": "Инерция",
+    "plot_silhouette_title": "Анализ силуэтов",
+    "plot_silhouette_x": "Коэффициенты силуэта",
+    "plot_silhouette_y": "Кластер",
+    
+    "button_ok": "ОК",
+    "button_cancel": "Отмена",
+    "button_apply": "Применить",
+    "button_close": "Закрыть",
+    "button_save": "Сохранить",
+    "button_load": "Загрузить"
+}

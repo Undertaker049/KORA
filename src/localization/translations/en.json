@@ -1,0 +1,106 @@
+{
+    "app_title": "KORA - K-means Optimization and Recursive Analysis",
+    
+    "menu_file": "File",
+    "menu_data": "Data",
+    "menu_analysis": "Analysis",
+    "menu_results": "Results",
+    "menu_settings": "Settings",
+    "menu_help": "Help",
+    
+    "menu_open": "Open Data File",
+    "menu_exit": "Exit",
+    
+    "menu_preprocess": "Preprocess Data",
+    
+    "menu_find_optimal_k": "Find Optimal K",
+    "menu_perform_clustering": "Perform Clustering",
+    
+    "menu_save_results": "Save Results",
+    "menu_visualize": "Visualize Clusters",
+    
+    "menu_language": "Language",
+    "menu_language_en": "English",
+    "menu_language_ru": "Russian",
+    
+    "menu_about": "About",
+    
+    "tab_data": "Data",
+    "tab_clustering": "Clustering",
+    "tab_visualization": "Visualization",
+    
+    "data_info": "Data Information",
+    "data_preview": "Data Preview",
+    "data_shape": "Shape",
+    "data_features": "Features",
+    "data_samples": "Samples",
+    "data_missing": "Missing Values",
+    
+    "preprocess_title": "Data Preprocessing Options",
+    "preprocess_normalize": "Normalize Data",
+    "preprocess_scale": "Scale Features",
+    "preprocess_missing": "Handle Missing Values",
+    "preprocess_button": "Apply Preprocessing",
+    
+    "clustering_params": "Clustering Parameters",
+    "clustering_k": "Number of Clusters (k)",
+    "clustering_max_iter": "Maximum Iterations",
+    "clustering_random_state": "Random State",
+    "clustering_button": "Run Clustering",
+    "clustering_results": "Clustering Results",
+    "clustering_metrics": "Evaluation Metrics",
+    
+    "viz_method": "Dimensionality Reduction Method",
+    "viz_pca": "PCA",
+    "viz_tsne": "t-SNE",
+    "viz_plot_title": "Cluster Visualization",
+    "viz_update": "Update Visualization",
+    
+    "optimal_k_title": "Find Optimal Number of Clusters",
+    "optimal_k_min": "Minimum K",
+    "optimal_k_max": "Maximum K",
+    "optimal_k_button": "Find Optimal K",
+    "optimal_k_results": "Elbow Method Results",
+    
+    "file_open_title": "Open Data File",
+    "file_save_title": "Save Results",
+    "file_types": "Data Files (*.csv *.xlsx *.npy);;CSV Files (*.csv);;Excel Files (*.xlsx);;NumPy Files (*.npy);;All Files (*)",
+    
+    "msg_data_loaded": "Data loaded successfully",
+    "msg_preprocessing_done": "Data preprocessing completed. Ready for clustering.",
+    "msg_clustering_done": "Clustering completed",
+    "msg_results_saved": "Results saved successfully",
+    "msg_error": "Error",
+    "msg_warning": "Warning",
+    "msg_info": "Information",
+    "msg_no_data": "No data to save. Perform clustering first.",
+    "msg_no_data_loaded": "No data loaded",
+    "msg_no_processed_data": "Preprocess data first.",
+    "msg_load_data_first": "Load data first.",
+    
+    "about_title": "About KORA",
+    "about_text": "KORA - K-means Optimization and Recursive Analysis Framework\n\nA tool for data clustering and analysis using K-means algorithm.",
+    
+    "metric_inertia": "Inertia",
+    "metric_silhouette": "Silhouette Score",
+    "metric_calinski_harabasz": "Calinski-Harabasz Index",
+    "metric_davies_bouldin": "Davies-Bouldin Index",
+    
+    "plot_component1": "Component 1",
+    "plot_component2": "Component 2",
+    "plot_cluster": "Cluster",
+    "plot_cluster_distribution": "Cluster Distribution",
+    "plot_elbow_title": "Elbow Method for Determining Optimal K",
+    "plot_elbow_x": "Number of clusters (k)",
+    "plot_elbow_y": "Inertia",
+    "plot_silhouette_title": "Silhouette Analysis",
+    "plot_silhouette_x": "Silhouette Coefficients",
+    "plot_silhouette_y": "Cluster",
+    
+    "button_ok": "OK",
+    "button_cancel": "Cancel",
+    "button_apply": "Apply",
+    "button_close": "Close",
+    "button_save": "Save",
+    "button_load": "Load"
+}
