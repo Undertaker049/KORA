@@ -190,44 +190,71 @@ def update_cluster_visualization(self):
         if hasattr(self, 'kmeans') and self.kmeans is not None and hasattr(self.kmeans, 'cluster_centers_'):
             
             try:
+                
                 # Transform centroids to the same space as reduced_data
                 reduced_centers = None
                 
                 # If we have a dimensionality reducer and it was trained
                 if hasattr(self, 'dimensionality_reducer') and self.dimensionality_reducer is not None:
                     
-                    # Check that centroids have the same dimension as original data
-                    if (hasattr(self, 'processed_data') and self.processed_data is not None and 
-                        self.kmeans.cluster_centers_.shape[1] == self.processed_data.shape[1]):
+                    # Check if dimensionality reducer can be used (it was already trained)
+                    if hasattr(self.dimensionality_reducer, 'components_'):
                         
-                        # Transform centroids using the same dimensionality reducer
-                        reduced_centers = self.dimensionality_reducer.transform(self.kmeans.cluster_centers_)
+                        # Apply dimensionality reduction directly to centroids
+                        try:
+                            print(f"Attempting to transform centroids from shape {self.kmeans.cluster_centers_.shape}")
+                            reduced_centers = self.dimensionality_reducer.transform(self.kmeans.cluster_centers_)
+                            print(f"Centroids transformed using dimensionality reducer. Shape: {reduced_centers.shape}")
                         
-                        # Add centroids to plot
-                        new_axes.scatter(
-                            reduced_centers[:, 0], 
-                            reduced_centers[:, 1],
-                            s=150, 
-                            marker='X',
-                            c=range(len(reduced_centers)),
-                            cmap=cmap,
-                            edgecolors='k',
-                            linewidths=1.5
-                        )
-                        
-                        legend_elements = [plt.Line2D([0], [0], marker='o', color='w', 
-                                            markerfacecolor=colors[i], markersize=10, 
-                                            label=f'{tr("plot_cluster")} {i}') 
-                                            for i in range(len(unique_labels))]
-                        
-                        legend_elements.append(plt.Line2D([0], [0], marker='X', color='w',
-                                                markerfacecolor=colors[0], markersize=10,
-                                                markeredgecolor='k', label=tr('cluster_centers')))
-                        
-                        if hasattr(self, 'clusters_legend') and self.clusters_legend is not None:
-                            self.clusters_legend.remove()
+                        except Exception as e:
+                            print(f"Error transforming centroids: {str(e)}")
+                
+                # If no dimensionality reducer is used, check if centroids are already in 2D space
+                elif self.kmeans.cluster_centers_.shape[1] == 2:
+                    reduced_centers = self.kmeans.cluster_centers_
+                    print(f"Using original 2D centroids. Shape: {reduced_centers.shape}")
+                
+                else:
+                    print(f"Falling back to PCA for centroid dimensionality reduction. Centroid shape: {self.kmeans.cluster_centers_.shape}")
+                    
+                    # Try to reduce centroid dimensionality with PCA
+                    try:
+                        from sklearn.decomposition import PCA
+                        pca = PCA(n_components=2)
+                        reduced_centers = pca.fit_transform(self.kmeans.cluster_centers_)
+                        print(f"Successfully reduced centroids to 2D with PCA. New shape: {reduced_centers.shape}")
+                   
+                    except Exception as e:
+                        print(f"Error applying PCA to centroids: {str(e)}")
+                
+                # Add centroids to plot only if they were successfully obtained
+                if reduced_centers is not None:
 
-                        self.clusters_legend = new_axes.legend(handles=legend_elements, loc='best')
+                    # Add centroids to plot
+                    new_axes.scatter(
+                        reduced_centers[:, 0], 
+                        reduced_centers[:, 1],
+                        s=150, 
+                        marker='X',
+                        c=range(len(reduced_centers)),
+                        cmap=cmap,
+                        edgecolors='k',
+                        linewidths=1.5
+                    )
+                    
+                    legend_elements = [plt.Line2D([0], [0], marker='o', color='w', 
+                                        markerfacecolor=colors[i], markersize=10, 
+                                        label=f'{tr("plot_cluster")} {i}') 
+                                        for i in range(len(unique_labels))]
+                    
+                    legend_elements.append(plt.Line2D([0], [0], marker='X', color='w',
+                                            markerfacecolor=colors[0], markersize=10,
+                                            markeredgecolor='k', label=tr('cluster_centers')))
+                    
+                    if hasattr(self, 'clusters_legend') and self.clusters_legend is not None:
+                        self.clusters_legend.remove()
+
+                    self.clusters_legend = new_axes.legend(handles=legend_elements, loc='best')
 
             except Exception as e:
                 print(f"Error plotting cluster centers: {str(e)}")

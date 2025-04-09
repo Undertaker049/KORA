@@ -28,7 +28,7 @@ def main():
     available_languages = translator.available_languages
     
     # Parse command line arguments
-    parser = argparse.ArgumentParser(description='KORA')
+    parser = argparse.ArgumentParser(description='KORA - K-means Optimization and Recursive Analysis Framework')
     parser.add_argument(
         '--lang', 
         choices=available_languages, 
