@@ -94,6 +94,7 @@
     "plot_silhouette_title": "Silhouette Analysis",
     "plot_silhouette_x": "Silhouette Coefficients",
     "plot_silhouette_y": "Cluster",
+    "cluster_centers": "Cluster Centroids",
     
     "button_ok": "OK",
     "button_cancel": "Cancel",

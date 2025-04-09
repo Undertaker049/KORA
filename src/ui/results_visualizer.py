@@ -62,12 +62,9 @@ def visualize_results(self):
             # Clear cluster plot before new visualization
             self.clusters_canvas.axes.clear()
             
-            # Remove colorbar if it exists
-            if hasattr(self, 'clusters_canvas') and self.clusters_canvas and hasattr(self, 'clusters_colorbar'):
-                
-                if self.clusters_colorbar is not None:
-                    self.clusters_colorbar.remove()
-                    self.clusters_colorbar = None
+            if hasattr(self, 'clusters_legend') and self.clusters_legend is not None:
+                self.clusters_legend.remove()
+                self.clusters_legend = None
         
         # Update cluster visualization
         update_cluster_visualization(self)
@@ -177,9 +174,12 @@ def update_cluster_visualization(self):
             alpha=0.8
         )
         
-        # Add colorbar to the right of the plot
-        cbar = new_figure.colorbar(scatter, ax=new_axes)
-        cbar.set_label(tr('plot_cluster'))
+        legend_elements = [plt.Line2D([0], [0], marker='o', color='w', 
+                          markerfacecolor=colors[i], markersize=10, 
+                          label=f'{tr("plot_cluster")} {i}') 
+                          for i in range(len(unique_labels))]
+        
+        self.clusters_legend = new_axes.legend(handles=legend_elements, loc='best')
         
         # Configure axes
         new_axes.set_xlabel(tr('plot_component1'))
@@ -214,6 +214,20 @@ def update_cluster_visualization(self):
                             edgecolors='k',
                             linewidths=1.5
                         )
+                        
+                        legend_elements = [plt.Line2D([0], [0], marker='o', color='w', 
+                                            markerfacecolor=colors[i], markersize=10, 
+                                            label=f'{tr("plot_cluster")} {i}') 
+                                            for i in range(len(unique_labels))]
+                        
+                        legend_elements.append(plt.Line2D([0], [0], marker='X', color='w',
+                                                markerfacecolor=colors[0], markersize=10,
+                                                markeredgecolor='k', label=tr('cluster_centers')))
+                        
+                        if hasattr(self, 'clusters_legend') and self.clusters_legend is not None:
+                            self.clusters_legend.remove()
+
+                        self.clusters_legend = new_axes.legend(handles=legend_elements, loc='best')
 
             except Exception as e:
                 print(f"Error plotting cluster centers: {str(e)}")

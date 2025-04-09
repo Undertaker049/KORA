@@ -94,6 +94,7 @@
     "plot_silhouette_title": "Анализ силуэтов",
     "plot_silhouette_x": "Коэффициенты силуэта",
     "plot_silhouette_y": "Кластер",
+    "cluster_centers": "Центроиды кластеров",
     
     "button_ok": "ОК",
     "button_cancel": "Отмена",

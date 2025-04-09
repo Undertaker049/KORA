@@ -71,7 +71,6 @@ def update_menu_language(self):
         
     if hasattr(self, 'menu_analysis'):
         self.menu_analysis.setTitle(tr('menu_analysis'))
-        self.action_find_optimal_k.setText(tr('menu_find_optimal_k'))
         self.action_perform_clustering.setText(tr('menu_perform_clustering'))
         
     if hasattr(self, 'menu_results'):
@@ -151,9 +150,6 @@ def update_ui_elements_language(self):
         
     if hasattr(self, 'cluster_btn'):
         self.cluster_btn.setText(tr('clustering_button'))
-        
-    if hasattr(self, 'find_optimal_k_btn'):
-        self.find_optimal_k_btn.setText(tr('optimal_k_button'))
         
     if hasattr(self, 'save_results_btn'):
         self.save_results_btn.setText(tr('button_save'))
