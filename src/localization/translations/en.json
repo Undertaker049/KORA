@@ -77,7 +77,7 @@
     "msg_load_data_first": "Load data first.",
     
     "about_title": "About KORA",
-    "about_text": "KORA - K-means Optimization and Recursive Analysis Framework\n\nA tool for data clustering and analysis using K-means algorithm.",
+    "about_text": "KORA - K-means Optimization and Recursive Analysis Framework\n\nA tool for data clustering and analysis using K-means algorithm.\n\nDeveloped by Maxim Selin, student of group 41IP, as a course project for discipline 01.01.",
     
     "metric_inertia": "Inertia",
     "metric_silhouette": "Silhouette Score",
