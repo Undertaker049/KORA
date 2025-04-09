@@ -1,5 +1,7 @@
 """
 Module for saving data and clustering results.
+
+Provides interface functionality for exporting clustering results.
 """
 
 import numpy as np
@@ -8,20 +10,36 @@ from PyQt5.QtWidgets import QFileDialog, QMessageBox
 
 def save_results(self):
     """
-    Save clustering results to a file.
+    Save clustering results to user-specified file.
+    
+    Parameters:
+        self: Parent application with:
+            - data: Original dataset
+            - labels: Cluster assignments
+            - reduced_data: Dimensionality-reduced data (optional)
+            - original_columns: Column names
+            - translator: Localization handler
+            - results_text: Text display widget
+            
+    Returns:
+        None: Results are saved to file; UI is updated with status
+        
+    Raises:
+        Exception: Errors during file saving are caught and displayed
     """
+    tr = self.translator
     
     if self.data is None or self.labels is None:
-        QMessageBox.warning(self, "Warning", "No data to save. Perform clustering first.")
+        QMessageBox.warning(self, tr('msg_warning'), tr('msg_no_data'))
         return
         
     try:
         options = QFileDialog.Options()
         file_path, selected_filter = QFileDialog.getSaveFileName(
             self,
-            "Save Clustering Results",
+            tr('file_save_title'),
             "",
-            "CSV files (*.csv);;Excel files (*.xlsx);;NumPy files (*.npy)",
+            tr('file_types'),
             options=options
         )
         
@@ -75,30 +93,33 @@ def save_results(self):
             results_df.to_csv(file_path, index=False)
             file_type = "CSV (default)"
         
+        # Save the path for localization purposes
+        self.last_save_path = file_path
+        
         # Create result message
-        info_text = "Results Successfully Saved\n\n"
-        info_text += f"File: {file_path}\n"
-        info_text += f"Format: {file_type}\n"
+        info_text = f"{tr('msg_results_saved')}\n\n"
+        info_text += f"{tr('file_save_title')}: {file_path}\n"
+        info_text += f"{tr('data_preview')}: {file_type}\n"
         
         if file_type != "NumPy (only cluster labels)":
-            info_text += f"Columns saved: {len(results_df.columns)}\n"
-            info_text += f"Rows saved: {len(results_df)}\n"
+            info_text += f"{tr('data_features')}: {len(results_df.columns)}\n"
+            info_text += f"{tr('data_samples')}: {len(results_df)}\n"
             
             # Add column names
-            info_text += "\nSaved columns: "
+            info_text += f"\n{tr('data_features')}: "
             column_names = results_df.columns.tolist()
             info_text += ", ".join(column_names[:10])
             
             if len(column_names) > 10:
-                info_text += f" and {len(column_names) - 10} more..."
+                info_text += f" {tr('data_features')} {len(column_names) - 10}..."
 
         else:
-            info_text += f"Cluster labels saved: {len(self.labels)}\n"
+            info_text += f"{tr('plot_cluster')}: {len(self.labels)}\n"
         
         # Display in text area
         self.results_text.setText(info_text)
    
     except Exception as e:
-        error_msg = f"Error saving results: {str(e)}"
-        QMessageBox.critical(self, "Error", error_msg)
+        error_msg = f"{tr('msg_error')}: {str(e)}"
+        QMessageBox.critical(self, tr('msg_error'), error_msg)
         self.results_text.setText(error_msg)
