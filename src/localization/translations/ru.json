@@ -13,7 +13,6 @@
     
     "menu_preprocess": "Предобработка данных",
     
-    "menu_find_optimal_k": "Найти оптимальное K",
     "menu_perform_clustering": "Выполнить кластеризацию",
     
     "menu_save_results": "Сохранить результаты",
@@ -59,7 +58,6 @@
     "optimal_k_title": "Поиск оптимального числа кластеров",
     "optimal_k_min": "Минимальное K",
     "optimal_k_max": "Максимальное K",
-    "optimal_k_button": "Найти оптимальное K",
     "optimal_k_results": "Результаты метода локтя",
     
     "file_open_title": "Открыть файл данных",

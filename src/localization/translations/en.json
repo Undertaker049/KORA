@@ -13,7 +13,6 @@
     
     "menu_preprocess": "Preprocess Data",
     
-    "menu_find_optimal_k": "Find Optimal K",
     "menu_perform_clustering": "Perform Clustering",
     
     "menu_save_results": "Save Results",
@@ -59,7 +58,6 @@
     "optimal_k_title": "Find Optimal Number of Clusters",
     "optimal_k_min": "Minimum K",
     "optimal_k_max": "Maximum K",
-    "optimal_k_button": "Find Optimal K",
     "optimal_k_results": "Elbow Method Results",
     
     "file_open_title": "Open Data File",

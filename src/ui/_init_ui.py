@@ -179,15 +179,11 @@ def init_ui(self):
     self.cluster_btn = QPushButton(tr('clustering_button'))
     self.cluster_btn.clicked.connect(self.perform_clustering)
     
-    self.find_optimal_k_btn = QPushButton(tr('optimal_k_button'))
-    self.find_optimal_k_btn.clicked.connect(self.find_optimal_k)
-    
     # Results saving button
     self.save_results_btn = QPushButton(tr('button_save'))
     self.save_results_btn.clicked.connect(self.save_results)
     
     cluster_layout.addRow(self.cluster_btn)
-    cluster_layout.addRow(self.find_optimal_k_btn)
     cluster_layout.addRow(self.save_results_btn)
     
     cluster_group.setLayout(cluster_layout)
@@ -314,11 +310,6 @@ def _create_menu_bar(self):
     
     # Analysis menu
     self.menu_analysis = menubar.addMenu(tr('menu_analysis'))
-    
-    # Find optimal k action
-    self.action_find_optimal_k = QAction(tr('menu_find_optimal_k'), self)
-    self.action_find_optimal_k.triggered.connect(self.find_optimal_k)
-    self.menu_analysis.addAction(self.action_find_optimal_k)
     
     # Perform clustering action
     self.action_perform_clustering = QAction(tr('menu_perform_clustering'), self)
