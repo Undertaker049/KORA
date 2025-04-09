@@ -93,6 +93,9 @@ def save_results(self):
             results_df.to_csv(file_path, index=False)
             file_type = "CSV (default)"
         
+        # Save the path for localization purposes
+        self.last_save_path = file_path
+        
         # Create result message
         info_text = f"{tr('msg_results_saved')}\n\n"
         info_text += f"{tr('file_save_title')}: {file_path}\n"

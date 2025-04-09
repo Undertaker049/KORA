@@ -5,8 +5,9 @@ Provides functions to update all UI elements
 when the application language is changed.
 """
 
-from PyQt5.QtWidgets import QDialog, QGroupBox, QFormLayout, QLabel
+from PyQt5.QtWidgets import QDialog, QGroupBox, QFormLayout, QLabel, QPushButton
 from PyQt5.QtCore import Qt
+import numpy as np
 
 
 def update_ui_language(self):
@@ -103,6 +104,7 @@ def update_tab_language(self):
     tr = self.translator.translate
     
     if hasattr(self, 'tabs'):
+        
         if hasattr(self, 'tab_data'):
             self.tabs.setTabText(self.tabs.indexOf(self.tab_data), tr('tab_data'))
             
@@ -129,16 +131,18 @@ def update_ui_elements_language(self):
     for widget in self.findChildren(QGroupBox):
         
         # Determine title based on current content
-        if widget.title() in ['Data', 'Данные']:
+        title = widget.title().lower()
+        
+        if 'data' in title or 'данные' in title:
             widget.setTitle(tr('tab_data'))
 
-        elif widget.title() in ['Preprocessing', 'Предобработка данных']:
+        elif 'pre' in title or 'пред' in title or 'обраб' in title:
             widget.setTitle(tr('menu_preprocess'))
 
-        elif widget.title() in ['Clustering', 'Кластеризация']:
+        elif 'cluster' in title or 'кластер' in title:
             widget.setTitle(tr('tab_clustering'))
 
-        elif widget.title() in ['Information', 'Информация о данных']:
+        elif 'info' in title or 'информ' in title:
             widget.setTitle(tr('data_info'))
     
     # Update buttons
@@ -153,6 +157,25 @@ def update_ui_elements_language(self):
         
     if hasattr(self, 'save_results_btn'):
         self.save_results_btn.setText(tr('button_save'))
+        
+    # Update all buttons that might not have been processed above
+    for btn in self.findChildren(QPushButton):
+        btn_text = btn.text()
+
+        if btn_text:
+
+            # Check for keywords and update text accordingly
+            if 'run' in btn_text.lower() or 'кластери' in btn_text.lower():
+                btn.setText(tr('clustering_button'))
+
+            elif 'save' in btn_text.lower() or 'сохран' in btn_text.lower():
+                btn.setText(tr('button_save'))
+
+            elif 'load' in btn_text.lower() or 'загруз' in btn_text.lower() or 'откр' in btn_text.lower():
+                btn.setText(tr('menu_open'))
+
+            elif 'process' in btn_text.lower() or 'обраб' in btn_text.lower():
+                btn.setText(tr('preprocess_button'))
     
     # Update labels
     if hasattr(self, 'data_info_label'):
@@ -161,51 +184,61 @@ def update_ui_elements_language(self):
     if hasattr(self, 'results_label'):
         self.results_label.setText(tr('clustering_results') + ":")
     
+    # Update results text if it exists
+    if hasattr(self, 'results_text') and hasattr(self, 'labels') and self.labels is not None:
+        update_results_text(self)
+    
     # Update tab texts
     if hasattr(self, 'tabs'):
-        self.tabs.setTabText(0, tr('plot_cluster'))
-        self.tabs.setTabText(1, tr('plot_elbow_title'))
-        self.tabs.setTabText(2, tr('plot_silhouette_title'))
-        self.tabs.setTabText(3, tr('data_features'))
+        tab_count = self.tabs.count()
+        
+        # Check each tab individually
+        if tab_count > 0:
+            self.tabs.setTabText(0, tr('plot_cluster'))
+
+        if tab_count > 1:
+            self.tabs.setTabText(1, tr('plot_elbow_title'))
+
+        if tab_count > 2:
+            self.tabs.setTabText(2, tr('plot_silhouette_title'))
+
+        if tab_count > 3:
+            self.tabs.setTabText(3, tr('data_features'))
     
     # Update form layout labels
     if hasattr(self, 'scale_check'):
 
-        # Find parent layout
-        parent_layout = self.scale_check.parent().layout()
+        # Update all QFormLayout elements in the application
+        for form_layout in self.findChildren(QFormLayout):
 
-        if parent_layout:
+            for i in range(form_layout.rowCount()):
 
-            # Get element index
-            for i in range(parent_layout.rowCount()):
+                # Get label from the left side of the form
+                label_item = form_layout.itemAt(i, QFormLayout.LabelRole)
 
-                # If QFormLayout, get labelForField
-                if isinstance(parent_layout, QFormLayout):
-                    label = parent_layout.itemAt(i, QFormLayout.LabelRole)
-
-                    if label and label.widget():
-
-                        # Update text based on context
-                        text = label.widget().text()
-
-                        if 'scale' in text.lower() or 'масштаб' in text.lower():
-                            label.widget().setText(tr('preprocess_scale') + ":")
-
-                        elif 'missing' in text.lower() or 'пропущен' in text.lower():
-                            label.widget().setText(tr('preprocess_missing') + ":")
-
-                        elif 'method' in text.lower() or 'метод' in text.lower():
-                            label.widget().setText(tr('viz_method') + ":")
-
-                        elif 'features' in text.lower() or 'признак' in text.lower():
-                            label.widget().setText(tr('data_features') + ":")
-
-                        elif 'clusters' in text.lower() or 'кластер' in text.lower():
-                            label.widget().setText(tr('clustering_k') + ":")
-
-                        elif 'iterations' in text.lower() or 'итера' in text.lower():
-                            label.widget().setText(tr('clustering_max_iter') + ":")
+                if label_item and label_item.widget():
+                    label = label_item.widget()
+                    text = label.text()
                     
+                    # Check and update label text based on content
+                    if 'scale' in text.lower() or 'масштаб' in text.lower():
+                        label.setText(tr('preprocess_scale') + ":")
+
+                    elif 'missing' in text.lower() or 'пропущен' in text.lower():
+                        label.setText(tr('preprocess_missing') + ":")
+
+                    elif 'method' in text.lower() or 'метод' in text.lower():
+                        label.setText(tr('viz_method') + ":")
+
+                    elif 'features' in text.lower() or 'признак' in text.lower():
+                        label.setText(tr('data_features') + ":")
+
+                    elif 'кластер' in text.lower() or 'cluster' in text.lower() or 'количество' in text.lower():
+                        label.setText(tr('clustering_k') + ":")
+
+                    elif 'итераций' in text.lower() or 'iter' in text.lower() or 'максим' in text.lower():
+                        label.setText(tr('clustering_max_iter') + ":")
+    
     # Update all texts in visualization tabs
     for tab in [self.clusters_tab, self.elbow_tab, self.silhouette_tab, self.features_tab]:
 
@@ -283,7 +316,12 @@ def change_language(self, language):
             except Exception as e:
                 print(f"Error clearing plots: {str(e)}")
         
+        # Update the entire interface with the new language
         update_ui_language(self)
+        
+        # Update clustering results text if it exists
+        if hasattr(self, 'results_text') and hasattr(self, 'labels') and self.labels is not None:
+            update_results_text(self)
         
         # Update plots with new labels if visualization data exists
         if has_visualization_data:
@@ -325,8 +363,6 @@ def change_language(self, language):
                     print(f"Error updating dialog language: {str(e)}")
         
     finally:
-
-        # Restore normal cursor
         QApplication.restoreOverrideCursor()
 
 
@@ -343,27 +379,127 @@ def update_visualization_language(self):
         Performs validation before attempting update
         Handles errors to prevent localization process interruption
     """
+
     # Check if necessary data exists for plot updates
     if not all(hasattr(self, attr) for attr in ['reduced_data', 'labels']):
-        # If no data, nothing to update
         return
         
     if getattr(self, 'reduced_data', None) is None or getattr(self, 'labels', None) is None:
-        # If data not loaded, nothing to update
         return
     
     # Check for plot existence
     if not hasattr(self, 'clusters_canvas') or self.clusters_canvas is None:
-        # If plots not created yet, nothing to update
         return
     
     try:
-        # Import and call function from separate module
         from ._update_visualization_language import update_visualization_language as update_vis
         update_vis(self)
+
     except Exception as e:
         print(f"Error updating visualization: {str(e)}")
-        # Don't let visualization errors interrupt localization process
+
+
+def update_results_text(self):
+    """
+    Update the clustering results text with current language.
+    
+    Regenerates the clustering results text using current translations,
+    preserving all numeric values and statistics.
+    
+    Parameters:
+        self: Parent application with clustering results data
+    """
+
+    try:
+        tr = self.translator.translate
+        
+        # Check current content of the text field
+        current_text = self.results_text.toPlainText()
+        
+        # Check what is currently displayed in the text field
+        if hasattr(self, 'labels') and self.labels is not None and hasattr(self, 'kmeans') and self.kmeans is not None:
+            
+            try:
+
+                # Get metrics from the model
+                evaluation = self.kmeans.evaluate(self.processed_data)
+                
+                # Gather clustering information
+                n_clusters = len(np.unique(self.labels))
+                
+                # Generate new results text
+                info_text = f"{tr('clustering_results')}:\n\n"
+                info_text += f"{tr('clustering_k')}: {n_clusters}\n"
+                
+                if 'inertia' in evaluation:
+                    info_text += f"{tr('metric_inertia')}: {evaluation['inertia']:.4f}\n"
+                
+                if 'silhouette_score' in evaluation:
+                    info_text += f"{tr('metric_silhouette')}: {evaluation['silhouette_score']:.4f}\n"
+                
+                if 'calinski_harabasz_score' in evaluation:
+                    info_text += f"{tr('metric_calinski_harabasz')}: {evaluation['calinski_harabasz_score']:.4f}\n"
+                
+                if 'davies_bouldin_score' in evaluation:
+                    info_text += f"{tr('metric_davies_bouldin')}: {evaluation['davies_bouldin_score']:.4f}\n"
+                
+                # Add information about cluster sizes
+                info_text += f"\n{tr('plot_cluster')}:\n"
+                unique_labels, counts = np.unique(self.labels, return_counts=True)
+                
+                for label, count in zip(unique_labels, counts):
+                    info_text += f"{tr('plot_cluster')} {label}: {count} {tr('data_samples')}\n"
+                
+                # Update text in the results field
+                self.results_text.setText(info_text)
+                return
+                
+            except Exception as e:
+                print(f"Error updating clustering results text: {str(e)}")
+        
+        # Optimal K search results
+        if 'k = ' in current_text and hasattr(self, 'elbow_k_range') and hasattr(self, 'elbow_curve'):
+           
+            try:
+                info_text = f"{tr('optimal_k_results')}\n\n"
+                info_text += f"{tr('metric_inertia')}:\n"
+                
+                for k, inertia in zip(self.elbow_k_range, self.elbow_curve):
+                    info_text += f"k = {k}: {inertia:.2f}\n"
+                
+                self.results_text.setText(info_text)
+                return
+                
+            except Exception as e:
+                print(f"Error updating optimal k results text: {str(e)}")
+        
+        # Preprocessing message
+        if tr('msg_preprocessing_done') in current_text or "preprocessing" in current_text.lower() or "предобработка" in current_text.lower():
+            self.results_text.setText(tr('msg_preprocessing_done'))
+            return
+            
+        # Save results message
+        if tr('msg_results_saved') in current_text or "saved" in current_text.lower() or "сохран" in current_text.lower():
+            
+            if hasattr(self, 'last_save_path'):
+                info_text = f"{tr('msg_results_saved')}\n\n"
+                info_text += f"{tr('file_save_title')}: {self.last_save_path}\n"
+                self.results_text.setText(info_text)
+            
+            else:
+                self.results_text.setText(tr('msg_results_saved'))
+            
+            return
+        
+        # Error message
+        if tr('msg_error') in current_text or "error" in current_text.lower() or "ошибка" in current_text.lower():
+            error_detail = current_text.split(":", 1)[1].strip() if ":" in current_text else ""
+            self.results_text.setText(f"{tr('msg_error')}: {error_detail}")
+            return
+        
+    except Exception as e:
+        print(f"Error in update_results_text: {str(e)}")
+
 
 __all__ = [
     'update_ui_language',
@@ -371,5 +507,6 @@ __all__ = [
     'update_tab_language',
     'update_ui_elements_language',
     'change_language',
-    'update_visualization_language'
+    'update_visualization_language',
+    'update_results_text'
 ]
